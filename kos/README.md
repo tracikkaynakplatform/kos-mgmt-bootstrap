@@ -1,0 +1,3 @@
+will include script/executables/services for installing and managing the system (kos).
+in progres....
+
