@@ -1,0 +1,38 @@
+===== KOS konular:==
+
+- repo ile ilgili sorular
+- yeni tag, kubespray:kos a merge edilecek.
+- KOS executable (client) tarafindan baslanmasi
+  - server (operator api) ...
+  - client + server ui ...
+  - DC plugins .....
+
+- https://github.com/kubernetes-sigs/cluster-api
+
+
+
+
+
+===================
+--- ubuntu 20.04.3 LTS ...
+    ?? Oracle Linux lts ...
+
+
+
+--- kubespray ==> Ansible ...
+
+--- go k8s client
+
+-- kubernetes operator api
+
+
+-- https://github.com/kubernetes-sigs/cluster-api  ....  
+  -- terraform dan alinabilecekler ...
+
+
+===================
+
+-- odtu'deki ekip ile (tekrar) iletisim...
+
+==================
+
