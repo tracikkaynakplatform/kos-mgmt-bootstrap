@@ -45,3 +45,12 @@ update (change existing configuration),
 upgrade (to a newer version), 
 scale (static.. dynamic scaling may already be provided), 
 
+## Application Libraries/Frameworks:
+
+- https://github.com/gin-gonic/gin  : REST & web?:
+    - This or https://github.com/labstack/echo or plain?
+- keycloak or https://github.com/dexidp/dex
+    - https://github.com/Nerzal/gocloak  : keycloak adapter. This is probably the only stable and updated library.
+        - This or plain?
+        - can it be adapted/plugged into gin or will it be used independently?
+
