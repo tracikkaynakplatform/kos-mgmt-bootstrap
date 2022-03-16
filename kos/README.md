@@ -49,6 +49,8 @@ scale (static.. dynamic scaling may already be provided),
 
 - https://github.com/gin-gonic/gin  : REST & web?:
     - This or https://github.com/labstack/echo or plain?
+    - stdlib + gorilla mux ??
+  https://eli.thegreenplace.net/2021/rest-servers-in-go-part-1-standard-library/
 - keycloak or https://github.com/dexidp/dex
     - https://github.com/Nerzal/gocloak  : keycloak adapter. This is probably the only stable and updated library.
         - This or plain?
