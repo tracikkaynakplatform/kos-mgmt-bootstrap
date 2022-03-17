@@ -140,6 +140,8 @@ kubectl --kubeconfig=$HOME/.kube/capi-quickstart.kubeconfig \
 
 That's it.
 
+(## produces single node (even if 3+3=6 nodes are reuired..))
+
 ## finishing and cleanup
 
 to delete resources (if needed):
@@ -158,3 +160,4 @@ If kind is used, run:
 ```bash
 kind delete cluster
 ```
+

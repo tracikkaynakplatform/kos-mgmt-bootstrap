@@ -49,10 +49,38 @@ scale (static.. dynamic scaling may already be provided),
 
 - https://github.com/gin-gonic/gin  : REST & web?:
     - This or https://github.com/labstack/echo or plain?
-    - stdlib + gorilla mux ??
+    - stdlib + gorilla mux 
+        - (muxdoes not have a release for 2 yrs) ??
   https://eli.thegreenplace.net/2021/rest-servers-in-go-part-1-standard-library/
 - keycloak or https://github.com/dexidp/dex
     - https://github.com/Nerzal/gocloak  : keycloak adapter. This is probably the only stable and updated library.
         - This or plain?
         - can it be adapted/plugged into gin or will it be used independently?
+
+# Go (REST) frameworks
+
+## versioning:
+```
+root:
+    /api/v1/<module_name>/<path?>
+        RESTFUL ==> frontend to backend (and backend to backend comm)..
+
+eg:
+    /api/v1/user/:id  ==> get user details with id ....
+```
+
+## echo
+
+
+Following https://echo.labstack.com/guide/ .
+
+# Framework:
+
+A working cluster initialized with cluster-api, is assumed. KOS moduled are installed in here and will be used here ..
+
+
+//TODO:  
+    - [ ] b2b, b2cluster-api, f2b comm via single token, is assumed at first... R&D ==> sec....
+        - [ ] split b2cluster-api token soon ???
+
 

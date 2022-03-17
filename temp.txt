@@ -1,0 +1,62 @@
+mangement:
+
+$ k get pods -A
+NAMESPACE                           NAME                                                             READY   STATUS    RESTARTS   AGE
+capd-system                         capd-controller-manager-fc9f9d975-bzxw4                          1/1     Running   0          91m
+capi-kubeadm-bootstrap-system       capi-kubeadm-bootstrap-controller-manager-7694977987-c2f4f       1/1     Running   0          92m
+capi-kubeadm-control-plane-system   capi-kubeadm-control-plane-controller-manager-5c887bc7f9-9dlpw   1/1     Running   0          92m
+capi-system                         capi-controller-manager-756b9b6576-xzbjw                         1/1     Running   0          92m
+cert-manager                        cert-manager-6888d6b69b-krlnz                                    1/1     Running   0          92m
+cert-manager                        cert-manager-cainjector-76f7798c9-dnd4n                          1/1     Running   0          92m
+cert-manager                        cert-manager-webhook-7d4b5d8484-7b8zg                            1/1     Running   0          92m
+kube-system                         coredns-64897985d-8gs9s                                          1/1     Running   0          3h50m
+kube-system                         coredns-64897985d-flt7v                                          1/1     Running   0          3h50m
+kube-system                         etcd-kind-control-plane                                          1/1     Running   0          3h51m
+kube-system                         kindnet-pcpx4                                                    1/1     Running   0          3h50m
+kube-system                         kube-apiserver-kind-control-plane                                1/1     Running   0          3h51m
+kube-system                         kube-controller-manager-kind-control-plane                       1/1     Running   0          3h51m
+kube-system                         kube-proxy-nxj94                                                 1/1     Running   0          3h50m
+kube-system                         kube-scheduler-kind-control-plane                                1/1     Running   0          3h51m
+local-path-storage                  local-path-provisioner-5ddd94ff66-6kfpc                          1/1     Running   0          3h50m
+
+
+worker (docker provider):
+$ kubectl --kubeconfig=$HOME/.kube/capi-quickstart.kubeconfig get pods -A
+NAMESPACE     NAME                                                          READY   STATUS    RESTARTS   AGE
+kube-system   calico-kube-controllers-85b5b5888d-f2djp                      1/1     Running   0          109s
+kube-system   calico-node-lw9g9                                             1/1     Running   0          109s
+kube-system   coredns-64897985d-cqs97                                       1/1     Running   0          19m
+kube-system   coredns-64897985d-tmc7k                                       1/1     Running   0          19m
+kube-system   etcd-capi-quickstart-control-plane-nwtsz                      1/1     Running   0          19m
+kube-system   kube-apiserver-capi-quickstart-control-plane-nwtsz            1/1     Running   0          19m
+kube-system   kube-controller-manager-capi-quickstart-control-plane-nwtsz   1/1     Running   0          19m
+kube-system   kube-proxy-m97lj                                              1/1     Running   0          19m
+kube-system   kube-scheduler-capi-quickstart-control-plane-nwtsz            1/1     Running   0          19m
+alx@alx-ev1:~/rd/KOS/kos/vendors/cluster-local (dev)$ 
+$ docker ps
+CONTAINER ID   IMAGE                                COMMAND                  CREATED          STATUS                            PORTS                                  NAMES
+a1d2c69bdd33   kindest/node:v1.23.3                 "/usr/local/bin/entr…"   22 minutes ago   Restarting (255) 10 seconds ago                                          capi-quickstart-control-plane-c7h7d
+8d0774c63951   kindest/node:v1.23.3                 "/usr/local/bin/entr…"   22 minutes ago   Up 22 minutes                                                            capi-quickstart-md-0-58d47fc5f7-hcvh7
+d9ff4cb98dfc   kindest/node:v1.23.3                 "/usr/local/bin/entr…"   22 minutes ago   Up 22 minutes                                                            capi-quickstart-md-0-58d47fc5f7-5q55t
+115a39821de3   kindest/node:v1.23.3                 "/usr/local/bin/entr…"   22 minutes ago   Up 22 minutes                                                            capi-quickstart-md-0-58d47fc5f7-s7ckl
+874fff16a11c   kindest/node:v1.23.3                 "/usr/local/bin/entr…"   23 minutes ago   Up 23 minutes                     43449/tcp, 127.0.0.1:43449->6443/tcp   capi-quickstart-control-plane-nwtsz
+f4f278714d57   kindest/haproxy:v20210715-a6da3463   "haproxy -sf 7 -W -d…"   25 minutes ago   Up 25 minutes                     35275/tcp, 0.0.0.0:35275->6443/tcp     capi-quickstart-lb
+4281a4cb4197   kindest/node:v1.23.4                 "/usr/local/bin/entr…"   4 hours ago      Up 4 hours                        127.0.0.1:42041->6443/tcp              kind-control-plane
+
+## produces single node (even if 3+3=6 nodes are reuired..)
+$ kubectl --kubeconfig=$HOME/.kube/capi-quickstart.kubeconfig get nodes
+NAME                                  STATUS   ROLES                  AGE   VERSION
+capi-quickstart-control-plane-nwtsz   Ready    control-plane,master   10h   v1.23.3
+
+
+$ clusterctl describe cluster capi-quickstart
+NAME                                                                READY  SEVERITY  REASON                       SINCE  MESSAGE                                                                              
+Cluster/capi-quickstart                                             False  Warning   ScalingUp                    10h    Scaling up control plane to 3 replicas (actual 2)                                    
+├─ClusterInfrastructure - DockerCluster/capi-quickstart             True                                          10h                                                                                         
+├─ControlPlane - KubeadmControlPlane/capi-quickstart-control-plane  False  Warning   ScalingUp                    10h    Scaling up control plane to 3 replicas (actual 2)                                    
+│ ├─Machine/capi-quickstart-control-plane-c7h7d                     False  Warning   BootstrapFailed              10h    1 of 2 completed                                                                     
+│ └─Machine/capi-quickstart-control-plane-nwtsz                     True                                          10h                                                                                         
+└─Workers                                                                                                                                                                                                     
+  └─MachineDeployment/capi-quickstart-md-0                          False  Warning   WaitingForAvailableMachines  10h    Minimum availability requires 3 replicas, current 0 available                        
+    └─3 Machines...                                                 False  Warning   BootstrapFailed              10h    See capi-quickstart-md-0-58d47fc5f7-5q55t, capi-quickstart-md-0-58d47fc5f7-hcvh7, ...
+
