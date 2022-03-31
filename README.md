@@ -161,3 +161,81 @@ If kind is used, run:
 kind delete cluster
 ```
 
+# Alternative Solutions:
+
+## Backend:
+- [ ] Direct access to upstream cluster-api backend
+- [ ] Fork & Customize (or extend) cluster-api backend and direct access
+
+## Frontend:
+- [ ] make extension to and existing one
+- [ ] extend an existing one
+- [ ] build a brand new one
+
+### Existing client-based solutions:
+- [?] lens
+  react (typescript) on electron. 
+  extension dev: https://api-docs.k8slens.dev/v5.4.3/
+  (probably) active development
+- [?] kubenav
+  has backend with gomobile ?
+  ricoberger@staffbase, diminishing development.
+
+## Existing server-based solutions:
+- [?] dashboard
+  - constant low contribution.
+  + rationale for a backend : https://github.com/kubernetes/dashboard/blob/master/docs/developer/architecture.md
+  - go + angular (+google stuff)
+- [-] rancher?
+  - own oci extensions, ...etc. Found no way for ui extensions..
+- [-] octant
+  diminished development: https://tanzu.vmware.com/content/blog/welcoming-heptio-open-source-projects-to-vmware
+
+## IAM:
+- [ ] use a library (like dex?)
+- [ ] use a prodiction app and api, like keycloak
+- [ ] in-house impl.
+
+### existing libs/solutions:
+- permission manager (SIGHUPIO):
+  + https://github.com/sighupio/permission-manager
+  - low freq. diminished development.
+
++ sa uses rfc-7519 tokens (JWT)
+
+### resources:
+RBAC: 
+  https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+Api internal access (from a pod) (/w sa): 
+  https://kubernetes.io/docs/tasks/run-application/access-api-from-pod/
+Api external acces:
+  https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-api/
+  JS client:
+  https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-api/#javascript-client
+
+
+# Similar work:
+- [ ] WKSctl ? : https://www.weave.works/oss/wksctl/
+  - utilizes gitops
+- [ ] k3d : single node /w k3s
+- [ ] Rancher: Suse
+- [ ] OpenShift: Redhat
+
+# Keywords:
+
+LF
+  CNCF
+
+kubernetes.io/docs
+  kubeadm
+  minukube
+  k3s - rancher
+
+client:
+  kubectl - cli
+  lens
+
+
+- cluster-api: server impl.. 
+
+kubeconfig

@@ -35,8 +35,6 @@ func GetUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, u)
 }
 
-func RegisterRoutes(e *echo.Echo, prefix string) error {
+func RegisterRoutes(e *echo.Echo, prefix string) {
 	e.GET(prefix+"/:id", GetUser)
-
-	return nil
 }
