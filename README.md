@@ -213,6 +213,19 @@ Api external acces:
   JS client:
   https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-api/#javascript-client
 
+### Authentication strategies:
+- client certs (-client-ca-file=SOMEFILE ==> one or more certs)
+- static tokens (--token-auth-file=SOMEFILE)
+- bootstrap tokens (kubeadm?) (--enable-bootstrap-token-auth) ...
+- sa tokens
+- oidc connect tokens (--oidc-** parameters)
+  there are similar parameters for clients (kubectl, ...etc)
+- webhook token (--authentication-token-webhook-** parameters)
+  - can be used with client-go
+- authenticating proxy ?? (--requestheader-** )
+- anonymous (--anonymous-auth=true)
+- Extra:
+  Impersonation (should have this role)
 
 # Similar work:
 - [ ] WKSctl ? : https://www.weave.works/oss/wksctl/
