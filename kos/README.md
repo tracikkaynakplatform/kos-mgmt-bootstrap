@@ -18,11 +18,11 @@ in progres....
     - [ ] //TODO: check if can be added, even partially, as in Rancher
 - cannot make clusters in scattered nodes (ok, not useful)
 - [ ] //TODO: check if remove/reset exist..
-
+- [ ] //TODO: test, and add to vendors/contrib, if applicable.
 
 ## app modules and requirements:
 
-Note: Only hierarchy is designed here.. Refer to epics and stiroes in jira for final status.
+Note: Only hierarchy is designed here.. Refer to epics and stories in jira for final status.
 
 ### user/preferences mgmt module
 user federation, identities.. may use/utilize argocd's library or keycloak, wso2 ...etc
