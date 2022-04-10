@@ -6,6 +6,7 @@
   - server (operator api) ...
   - client + server ui ...
   - DC plugins .....
+  
 
 - https://github.com/kubernetes-sigs/cluster-api
 
@@ -36,3 +37,39 @@
 
 ==================
 
+Curl ile erisim ornekleri:
+==================
+proxy ile:
+kubectl proxy --port <PORT_NUMBER> &
+curl -s http://localhost:<PORT_NUMBER>/
+curl -s http://localhost:<PORT_NUMBER>/api/v1/nodes | jq '.items[].metadata.labels'
+
+token ile:
+APISERVER=$(kubectl config view | grep server | cut -f 2- -d ":" | tr -d " ")
+TOKEN=$(kubectl describe secret $(kubectl get secrets | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t')
+curl $APISERVER/api --header "Authorization: Bearer $TOKEN" --insecure
+
+kubeconfig ile::
+curl $KUBE_API/apis/apps/v1/deployments \
+  --cacert ./ca.crt \
+  --cert ./client.crt \
+  --key /.minikube/profiles/cluster1/client.key
+
+
+
+# Extract the Cluster Certificate Authorithy
+$ kubectl config view --minify --raw --output 'jsonpath={..cluster.certificate-authority-data}' | base64 -d | openssl x509 -text -out -
+...
+
+# Extract the Client Certificate
+$kubectl config view --minify --raw --output 'jsonpath={..user.client-certificate-data}' | base64 -d | openssl x509 -text -out -
+...
+
+# Extract the Client Private Key
+$ kubectl config view --minify --raw --output 'jsonpath={..user.client-key-data}' | base64 -d
+...
+
+curl https://192.168.122.106:6443/api/v1/nodes \
+  --cacert <(kubectl config view --minify --raw --output 'jsonpath={..cluster.certificate-authority-data}' | base64 -d) \
+  --cert <(kubectl config view --minify --raw --output 'jsonpath={..user.client-certificate-data}' | base64 -d) \
+  --key <(kubectl config view --minify --raw --output 'jsonpath={..user.client-key-data}' | base64 -d)
