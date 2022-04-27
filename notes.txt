@@ -73,3 +73,112 @@ curl https://192.168.122.106:6443/api/v1/nodes \
   --cacert <(kubectl config view --minify --raw --output 'jsonpath={..cluster.certificate-authority-data}' | base64 -d) \
   --cert <(kubectl config view --minify --raw --output 'jsonpath={..user.client-certificate-data}' | base64 -d) \
   --key <(kubectl config view --minify --raw --output 'jsonpath={..user.client-key-data}' | base64 -d)
+
+
+## kind run:
+
+cat > kind-cluster-with-extramounts.yaml <<EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  extraMounts:
+    - hostPath: /var/run/docker.sock
+      containerPath: /var/run/docker.sock
+EOF
+
+kind create cluster --config kind-cluster-with-extramounts.yaml
+
+
+##
+
+clusterctl init --infrastructure docker
+
+
+clusterctl generate cluster capi-quickstart --flavor development \
+  --kubernetes-version v1.23.3 \
+  --control-plane-machine-count=3 \
+  --worker-machine-count=3 \
+  > capi-quickstart.yaml
+
+kubectl apply -f capi-quickstart.yaml
+
+kubectl get kubeadmcontrolplane
+
+>> check for initialized return and replica caount, for a few minutes (3-4 mins):
+NAME                            INITIALIZED   API SERVER AVAILABLE   VERSION   REPLICAS   READY   UPDATED   UNAVAILABLE
+capi-quickstart-control-plane   true                                 v1.23.3   3                  3         3
+
+clusterctl get kubeconfig capi-quickstart > capi-quickstart.kubeconfig
+
+>> modify the above file and change api endpoint to ha-proxy endpoint in (can also be localhost:39747):
+1b041cfe3468   kindest/haproxy:v20210715-a6da3463   "haproxy -sf 7 -W -d…"   5 minutes ago    Up 5 minutes    39747/tcp, 0.0.0.0:39747->6443/tcp
+
+
+
+kubectl --kubeconfig=./capi-quickstart.kubeconfig apply -f https://docs.projectcalico.org/v3.21/manifests/calico.yaml
+
+>>> after a while, the new output will be:
+kubectl get kubeadmcontrolplane
+NAME                            CLUSTER           INITIALIZED   API SERVER AVAILABLE   REPLICAS   READY   UPDATED   UNAVAILABLE   AGE   VERSION
+capi-quickstart-control-plane   capi-quickstart   true          true                   3          3       3         0             13m   v1.23.3
+
+>>> checks the new cluster:
+kubectl --kubeconfig=./capi-quickstart.kubeconfig get all -A
+
+>>>> takes about 10mins, if images are already downloaded.
+
+### clean-restart docker:
+### NOTICE: REMOVES AND DELETES ANYTHING ABOUT ALL CONTAINERS:
+docker stop -f $(docker ps -a -q)
+docker rm -f $(docker ps -a -q)
+docker volume rm $(docker volume ls -q)
+
+==================================================================================================
+
+x-k8s CRDs on kind. All are probably cluster-api related ones:
+
+ clusterclasses.cluster.x-k8s.io clusterissuers.cert-manager.io clusterresourcesetbindings.addons.cluster.x-k8s.io clusterresourcesets.addons.cluster.x-k8s.io clusters.cluster.x-k8s.io dockerclusters.infrastructure.cluster.x-k8s.io dockerclustertemplates.infrastructure.cluster.x-k8s.io dockermachinepools.infrastructure.cluster.x-k8s.io dockermachines.infrastructure.cluster.x-k8s.io dockermachinetemplates.infrastructure.cluster.x-k8s.io issuers.cert-manager.io kubeadmconfigs.bootstrap.cluster.x-k8s.io kubeadmconfigtemplates.bootstrap.cluster.x-k8s.io kubeadmcontrolplanes.controlplane.cluster.x-k8s.io kubeadmcontrolplanetemplates.controlplane.cluster.x-k8s.io machinedeployments.cluster.x-k8s.io machinehealthchecks.cluster.x-k8s.io machinepools.cluster.x-k8s.io machines.cluster.x-k8s.io machinesets.cluster.x-k8s.io orders.acme.cert-manager.io providers.clusterctl.cluster.x-k8s.io
+
+
+=== Cluster configuration structure: ===
+
+MachineDeployment :: capi-quickstart-md-0
+  +configRef (KubeadmConfigTemplate :: capi-quickstart-md-0) 
+  +infrastructureRef (DockerMachineTemplate :: capi-quickstart-md-0)
+  clusterName, replicas
+
+KubeadmConfigTemplate :: capi-quickstart-md-0
+  cgroup-driver, eviction-hard
+
+DockerMachineTemplate :: capi-quickstart-md-0
+
+===
+
+DockerMachineTemplate :: capi-quickstart-control-plane
+  extraMounts(docker.sock)
+
+KubeadmControlPlane :: capi-quickstart-control-plane
+  +machineTemplate.infrastructureRef (DockerMachineTemplate :: capi-quickstart-control-plane)
+  certSANs, 
+  initConfiguration(criSocket, kubeletExtraArgs, ...), 
+  joinConfiguration(criSocket, kubeletExtraArgs, ...)
+
+===
+
+DockerCluster :: capi-quickstart
+
+Cluster :: capi-quickstart
+  +controlPlaneRef (KubeadmControlPlane :: capi-quickstart-control-plane)
+  +infrastructureRef (DockerCluster :: capi-quickstart)
+  clusterNetwork
+
+=== ===
+Machine, MachineSet, MachineHealthCheck, BootstrapData
+- prefer MachineDeployment s over Machine s.
+
+====
+
+Javascript client linrary for Kubernetes.
+
+

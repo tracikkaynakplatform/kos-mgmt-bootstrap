@@ -60,3 +60,13 @@ Cluster/capi-quickstart                                             False  Warni
   └─MachineDeployment/capi-quickstart-md-0                          False  Warning   WaitingForAvailableMachines  10h    Minimum availability requires 3 replicas, current 0 available                        
     └─3 Machines...                                                 False  Warning   BootstrapFailed              10h    See capi-quickstart-md-0-58d47fc5f7-5q55t, capi-quickstart-md-0-58d47fc5f7-hcvh7, ...
 
+
+>>>> new volumes by docker:
+local     4e1fc7b008b2446ca75459c2b6a0f7a7530d352269d881441126059daf61ea26
+local     105cfa4bb972a2236d0a6134a3f2d65c2194703b0eefd59f527b6a47acc1c047
+local     247fbaa5a7032d0c1de7016ebb0627a1c14cfa0522c0caa2bb24f116a689a656
+local     9777778f8697a72d4b19f5a2630fcbe3bf4fd19a7dcc4a0d98d5d6e4d15efdae
+local     c71df2dfc300dd101d5c496f6638602a422d16ba2f0076ab1536d76bbc2d5ebb
+local     d7a3f0a997e55011d8bddf18ab05c1bec88a45c1d77e4e73729600bc0b6e725a
+local     f9dc8457021465d1c9fdc2beee160c51b48fc77e6eae27a23bbe2b4dc85028a3
+local     f64262a5d9b7375bc77533724f24da27b4c86838336eb83f0a1fdae6a09ebc41
