@@ -1,3 +1,6 @@
 [submodule "vendors/kubespray"]
 	path = vendors/kubespray
 	url = https://github.com/basakil/kubespray.git
+[submodule "lens"]
+	path = lens
+	url = https://github.com/basakil/lens.git

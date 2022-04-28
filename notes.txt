@@ -173,6 +173,8 @@ Cluster :: capi-quickstart
   +infrastructureRef (DockerCluster :: capi-quickstart)
   clusterNetwork
 
+=====================================================================================================
+
 === ===
 Machine, MachineSet, MachineHealthCheck, BootstrapData
 - prefer MachineDeployment s over Machine s.
