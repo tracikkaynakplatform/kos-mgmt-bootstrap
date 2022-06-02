@@ -85,23 +85,25 @@ You can now create your first workload cluster by running the following:
   clusterctl generate cluster [name] --kubernetes-version [version] | kubectl apply -f -
 ```
 
+**NOTE:** In any of the above and below steps, if a “too many open files” error occurs (can be seen as docker/pod logs?), see: https://kind.sigs.k8s.io/docs/user/known-issues/#pod-errors-due-to-too-many-open-files
+
 ## initialize the workload cluster
 
 For the docker provider, run the following command to produce a cluster yaml file:
 
 ```bash
 clusterctl generate cluster capi-quickstart --flavor development \
-  --kubernetes-version v1.23.3 \
+  --kubernetes-version v1.23.6 \
   --control-plane-machine-count=3 \
   --worker-machine-count=3 \
-  > capi-quickstart.yaml
+  > capi-quickstart-v1.23.6.yaml
 
 ```
 
 Run the output:
 
 ```bash
-kubectl apply -f capi-quickstart.yaml
+kubectl apply -f capi-quickstart-v1.23.6.yaml
 ```
 Output:
 
@@ -127,6 +129,7 @@ describe it with:
 clusterctl describe cluster capi-quickstart
 ```
 
+NOTE: 
 get the kubeconfig for the workload cluster with:
 ```bash
 clusterctl get kubeconfig capi-quickstart > $HOME/.kube/capi-quickstart.kubeconfig
@@ -134,8 +137,9 @@ clusterctl get kubeconfig capi-quickstart > $HOME/.kube/capi-quickstart.kubeconf
 
 apply cni with:
 ```bash
-kubectl --kubeconfig=$HOME/.kube/capi-quickstart.kubeconfig \
-  apply -f https://docs.projectcalico.org/v3.21/manifests/calico.yaml
+
+kubectl --kubeconfig=$HOME/.kube/capi-quickstart.kubeconfig apply -f https://projectcalico.docs.tigera.io/manifests/calico.yaml
+
 ```
 
 That's it.
