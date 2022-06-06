@@ -7,7 +7,7 @@ export default function CreateCluster() {
                 <div className="component--kos">
                     <div className="kos-card">
                         <header>
-                            <h5>KOSsdds</h5>
+                            <h5>KOS</h5>
                         </header>
                         <div className="kos-content">
                             <form>
