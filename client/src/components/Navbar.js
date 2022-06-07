@@ -1,9 +1,11 @@
 import {useState} from "react";
 import {NavLink} from "react-router-dom";
 import menus from '../menus'
+import CreateCluster from "./CreateCluster";
 
 function Navbar() {
     const [openMenu, setOpenMenu] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
 
     const changeTheme = () => {
         window.document.documentElement.classList.toggle("dark")
@@ -50,7 +52,7 @@ function Navbar() {
                                     </svg>
                                 </button>
 
-                                <button type="button" className="button ml-5">Create Cluster</button>
+                                <button onClick={() => {setOpenModal(!openModal)}} type="button" className="button ml-5">Create Cluster</button>
                             </div>
                         </div>
 
@@ -95,8 +97,7 @@ function Navbar() {
                 </div>
                 }
             </nav>
-
-
+            <CreateCluster show={openModal} onClose={() => {setOpenModal(!openModal)}}/>
         </>
     )
 }

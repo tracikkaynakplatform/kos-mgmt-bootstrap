@@ -1,4 +1,3 @@
-import CreateCluster from "./pages/CreateCluster";
 import Dashboard from "./pages/Dashboard";
 import Pods from "./pages/Pods";
 import Nodes from "./pages/Nodes";
@@ -11,12 +10,6 @@ export const routes = [
         path: '/dashboard',
         exact: true,
         component: Dashboard,
-    },
-    {
-        id: uuidv4(),
-        path: '/',
-        exact: true,
-        component: CreateCluster,
     },
     {
         id: uuidv4(),
