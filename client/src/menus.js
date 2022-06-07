@@ -1,27 +1,23 @@
+import { v4 as uuidv4 } from 'uuid';
+
 const menus = [
     {
-        id: 1,
-        path: "/",
-        name: "Create Cluster"
-    },
-
-    {
-        id: 2,
+        id: uuidv4(),
         path: "/dashboard",
         name: "Dashboard"
     },
     {
-        id: 3,
+        id: uuidv4(),
         path: "/nodes",
         name: "Nodes"
     },
     {
-        id: 4,
+        id: uuidv4(),
         path: "/pods",
         name: "Pods"
     },
     {
-        id: 5,
+        id: uuidv4(),
         path: "/services",
         name: "Services"
     }
