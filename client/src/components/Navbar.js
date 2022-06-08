@@ -13,7 +13,7 @@ function Navbar() {
 
     return (
         <>
-            <nav className="dark:bg-dark">
+            <nav className="bg-white dark:bg-dark">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center">
@@ -52,7 +52,13 @@ function Navbar() {
                                     </svg>
                                 </button>
 
-                                <button onClick={() => {setOpenModal(!openModal)}} type="button" className="button ml-5">Create Cluster</button>
+                                <button onClick={() => {
+                                    setOpenModal(!openModal)
+                                }} type="button" className="button ml-5">Create Cluster
+                                </button>
+                                <CreateCluster show={openModal} onClose={() => {
+                                    setOpenModal(!openModal)
+                                }}/>
                             </div>
                         </div>
 
@@ -97,7 +103,6 @@ function Navbar() {
                 </div>
                 }
             </nav>
-            <CreateCluster show={openModal} onClose={() => {setOpenModal(!openModal)}}/>
         </>
     )
 }
