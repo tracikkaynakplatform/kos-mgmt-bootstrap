@@ -11,22 +11,22 @@ const kindObj = {
 
 const KindStatus = new kindStatusModel;
 // Kind CNI komutu çıktılarını Live modda takip etmek için.
-const createKind = async () => {
+const createKind = async (name) => {
     // Kind Model new
 
     // Kind CNI komutu çalıştırma
     const spawn = require('child_process').spawn;
-    kind = spawn('kind', ['create', 'cluster']);
+    kind = spawn('kind', ['create', 'cluster', '--name', name]);
 
     // Çıktı yok ! Sadece stderr de çıktı veriyor.
-    
+
     /*
     kind.stdout.on('data', function (data) {
         status = data.toString();
         // console.log("stdout: ", status);
     });
     */
-   
+
     let status;
     kind.stderr.on('data', function (data) {
         status = data.toString();
@@ -39,15 +39,15 @@ const createKind = async () => {
             }
         }
     });
-    
+
     kind.on('exit', function (code) {
         if (code == 1){
             KindStatus['onErr'] = true;
             KindStatus['errMsg'] = status
-            KindStatus['runing'] = 2;
+            KindStatus['runing'] = 0;
         }
         else if (code == 0){
-            KindStatus['runing'] = 2;
+            KindStatus['runing'] = 0;
         }
     });
 };
