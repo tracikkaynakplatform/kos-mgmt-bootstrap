@@ -102,3 +102,4 @@ venv/
 ENV/
 
 node_modules/
+server/node_modules/
