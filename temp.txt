@@ -70,3 +70,29 @@ local     c71df2dfc300dd101d5c496f6638602a422d16ba2f0076ab1536d76bbc2d5ebb
 local     d7a3f0a997e55011d8bddf18ab05c1bec88a45c1d77e4e73729600bc0b6e725a
 local     f9dc8457021465d1c9fdc2beee160c51b48fc77e6eae27a23bbe2b4dc85028a3
 local     f64262a5d9b7375bc77533724f24da27b4c86838336eb83f0a1fdae6a09ebc41
+
+
+https://gist.github.com/chenxiaolong/4beec93c464639a19ad82eeccc828c63
+## use to enable safeboot:
+bcdedit /set {current} safeboot minimal
+## use to disable safeboot:
+bcdedit /deletevalue {current} safeboot
+
+## use to check and disable bitlocker:
+manage-bde -status
+manage-bde -off C:
+manage-bde -status
+## wait untill all is decrypted. (can also be checked via "manage bitlocker" window)
+
+
+"pet exec" command ==> about ssh (tunneling?) ==> https://github.com/knqyf263/pet ?
+
+capi providers:
+Infrastructure Provider: AWS, kind, OpenStack
+Bootstrap Provider: kubeadm
+
+Management cluster: includes cluster-api CRDs.
+Workload cluster: clusters produced and managed by the management cluster.
+Bootstrap cluster: temporary cluster used to construct a management cluster.
+
+clusterctl config ==> creates workload cluster ?
