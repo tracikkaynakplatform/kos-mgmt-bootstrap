@@ -156,6 +156,15 @@ to delete resources (if needed):
 kubectl delete cluster capi-quickstart
 ```
 
+### pause all docker containers:
+```bash
+docker pause $(docker ps -q)
+```
+unpause:
+```bash
+docker unpause $(docker ps -q)
+```
+
 ### delete the management cluster:
 If kubespray is used to produce the management cluster, the image provisioned using it, should be removed manually.
 
